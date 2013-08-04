@@ -50,6 +50,10 @@ class Test::Redef
     return lookup(@called, method_name) || 0
   end
 
+  def called?(method_name=nil)
+    return called(method_name) > 0
+  end
+
   def args(method_name=nil)
     return (lookup(@args, method_name) || []).map {|a| a[1] }
   end

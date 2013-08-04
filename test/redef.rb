@@ -11,8 +11,11 @@ class RedefTest < Test::Unit::TestCase
     assert_equal( 'orig', b.test_method )
 
     Test::Redef.rd 'TestClass#test_method' => proc { 'new' } do |r|
+      assert( !r.called? )
+
       assert_equal( 'new', a.test_method('foo') )
       assert_equal( 'new', b.test_method )
+      assert( r.called? )
       assert_equal( 2, r.called )
       assert_equal( [a, b], r.object )
       assert_equal( [['foo'], []], r.args )
