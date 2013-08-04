@@ -1,4 +1,4 @@
-# Test::Redef [![Build Status](https://secure.travis-ci.org/nearbuy/test-redef.png?branch=master)]
+# Test::Redef ![Build Status](https://secure.travis-ci.org/nearbuy/test-redef.png?branch=master)
 
 Replace methods with test code, get feedback on how they are called
 and put it all back together when your test is done.
