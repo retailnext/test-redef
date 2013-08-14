@@ -15,7 +15,7 @@ class Example < Test::Unit::TestCase
     Test::Redef.rd(
       'Time.now' => proc { now },  # replace with the given proc
       'Time#sunday?' => :wiretap,  # instrument existing implementation
-      'Kernel#raise' => :empty,     # replace with empty proc
+      'Kernel#raise' => :empty,    # replace with empty proc
     ) do |rd|
       assert( Time.now.sunday? )
       assert_nothing_raised { raise ArgumentError }
@@ -25,8 +25,65 @@ class Example < Test::Unit::TestCase
       assert( rd[:now].called? )
     end
   end
-engsd
+end
 ```
+
+## Class Methods
+
+### rd
+
+Takes a hash of methods to replace.  Values can either be a proc,
+which will be called in place of the original function, or one of the
+built-in replacements, `:wiretap` and `:empty`.  `:wiretap`
+instruments the original implementation and `:emtpy` is an empty proc.
+
+Yields a Test::Redef object.  Original methods are reinstalled when
+the block exits.
+
+### publicize_method
+
+Takes a list of private methods to temporarilly make public.  Yields
+and returns them to private when the block exits.
+
+## Instance Methods
+
+### call_order
+
+Returns a list of all redef'd methods in the order in which they were
+called.
+
+### []
+
+Takes a method name and returns an object that you can call the
+inspection methods on.  A method name can be either the fully
+qualified name of the method (`Time.now`) or just the method name
+(`now`, `:now`) if unambiguous.
+
+## Inspection Methods
+
+You can either be called on the return value of Test::Redef#[] or on
+the Test::Redef object itself, passing in a method name.
+
+### called
+
+The number of times a method has been called.
+
+### called?
+
+Boolean, has the method been called.
+
+### args
+
+Arguments passed in to the method at each call.
+
+### object
+
+Object the method was called on at each call.
+
+### reset
+
+Throw away all data collected so far.  #called? will return `false`
+until the method is called again.
 
 ## Support
 
