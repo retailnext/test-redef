@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.authors = ['Nearbuy Systems']
-  s.summary = 'Scopped and logged monkey patching for unit tests'
+  s.summary = 'Scoped and logged monkey patching for unit tests'
   s.description = 'Replace methods with test code, get feedback on how they are called and put it all back together when your test is done.'
   s.email = 'hackers@nearbuysystems.com'
   s.homepage = 'http://github.com/nearbuy/test-redef'

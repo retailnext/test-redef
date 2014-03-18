@@ -208,13 +208,25 @@ class RedefTest < Test::Unit::TestCase
     assert_raises( NoMethodError ) do
       a.private_method
     end
-    Test::Redef.publicize_method('TestClass#private_method', 'TestClass.private_class_method') do
+    Test::Redef.publicize_method(
+      'TestClass#private_method',
+      'TestClass.private_class_method',
+      'TestClass#test_method',
+      'TestClass.class_method',
+    ) do
       assert_equal( 'orig private method', a.private_method )
       assert_equal( 'bolero-mute', TestClass.private_class_method )
+      assert_equal( 'orig', a.test_method )
+      assert_equal( 'orig', TestClass.class_method )
     end
+
     assert_raises( NoMethodError ) do
       a.private_method
     end
+
+    # don't privatize methods that were public
+    assert_equal( 'orig', a.test_method )
+    assert_equal( 'orig', TestClass.class_method )
   end
 
   # this sometimes seems like a good idea, but can lead to subtle bugs

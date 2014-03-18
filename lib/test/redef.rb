@@ -33,10 +33,10 @@ class Test::Redef
   end
 
   def self.publicize_method(*methods)
-    orig_access_level = {}
     method_syms = []
     methods.each do |class_method_name|
       klass, method_name = parse_class_and_method(class_method_name)
+      next if klass.public_instance_methods.include?(method_name)
       method_syms << [klass, method_name]
       klass.send(:public, method_name)
     end
@@ -180,7 +180,7 @@ class Test::Redef
         klass.__send__(:alias_method, hider, method_name)
         real_redef_method_name = "__redef_new_method_#{@@redef_next_id}"
         temporary_methods << [klass, real_redef_method_name]
-        @@redef_next_id += 1;
+        @@redef_next_id += 1
         klass.__send__(:define_method, real_redef_method_name, method)
         arity = method.arity
 
