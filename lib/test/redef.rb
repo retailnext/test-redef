@@ -81,7 +81,7 @@ class Test::Redef
   def [](method_name)
     c = Class.new
     c.instance_exec(self, method_name) do |rs, rs_method_name|
-      [:called, :args, :object, :reset].each do |method|
+      [:called, :args, :object, :reset, :called?].each do |method|
         define_method(method) { rs.__send__(method, rs_method_name) }
       end
     end

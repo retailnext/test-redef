@@ -137,6 +137,7 @@ class RedefTest < Test::Unit::TestCase
       assert_equal( [["pacifies-empiricism\'s"]], rd['TestClass#test_method'].args )
 
       assert_equal( 1, rd[:class_method].called )
+      assert( rd[:class_method].called? )
       assert_equal( [[]], rd[:class_method].args )
     end
   end
@@ -152,6 +153,8 @@ class RedefTest < Test::Unit::TestCase
       assert_equal( 0, rd['TestClass#both_class_and_instance'].called )
       assert_equal( 0, rd['TestClass.both_class_and_instance'].called )
 
+      assert( !rd['TestClass#both_class_and_instance'].called? )
+      assert( !rd['TestClass.both_class_and_instance'].called? )
 
       assert_equal( 'new_instance', a.both_class_and_instance )
       assert_equal( 'new_class', TestClass.both_class_and_instance )
